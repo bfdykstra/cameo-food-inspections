@@ -1,1 +1,1 @@
-# Get up and running with this express and sequelize skeleton
+# Cameo food inspections project
