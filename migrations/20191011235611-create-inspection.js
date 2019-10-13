@@ -17,7 +17,7 @@ module.exports = {
     zip: Sequelize.INTEGER,
     inspection_date: Sequelize.DATE,
     inspection_type: Sequelize.TEXT,
-    results: Sequelize.ENUM('Pass', 'Fail', 'Pass w/ Conditions'),
+    results: Sequelize.STRING,
     latitude: Sequelize.STRING,
     longitude: Sequelize.STRING,
   }),

@@ -17,21 +17,19 @@ module.exports = (sequelize, DataTypes) => {
     zip: DataTypes.INTEGER,
     inspection_date: DataTypes.DATE,
     inspection_type: DataTypes.TEXT,
-    results: DataTypes.ENUM('Pass', 'Fail', 'Pass w/ Conditions'),
+    results: DataTypes.STRING,
     latitude: DataTypes.FLOAT,
     longitude: DataTypes.FLOAT,
-    location_address: DataTypes.TEXT,
-    location_city: DataTypes.TEXT,
-    location_state: DataTypes.TEXT,
   }, {
     timestamps: false,
-    tableName: 'Inspection',
+    tableName: 'inspection',
   });
   Inspection.associate = function associate(models) {
+    console.log('models: ', models);
     const { inspection, violation } = models;
     inspection.hasMany(violation, {
       foreignKey: 'inspection_id',
-      sourceKey: 'id',
+      sourceKey: 'inspection_id',
 
     });
   };

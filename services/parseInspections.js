@@ -33,7 +33,12 @@ const getInspections = async (limit, sodaAPIOptions) => {
  * where each array is an array of objects that holds inspection and violations objects
  */
 const parseInspections = (allInspections) => allInspections.reduce((accum, inspection) => {
-  const { violations, ...inspectionOb } = inspection;
+  const {
+    violations,
+    location,
+    ...inspectionOb
+  } = inspection;
+
   accum.inspectionsArr.push(inspectionOb);
 
   if (violations) {

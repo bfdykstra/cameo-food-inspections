@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     inspection_id: {
       allowNull: false,
+      type: DataTypes.INTEGER,
     },
     name: {
       type: DataTypes.STRING,
@@ -17,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     timestamps: false,
-    tableName: 'Violation',
+    tableName: 'violation',
   });
 
   Violation.associate = function associate(models) {
