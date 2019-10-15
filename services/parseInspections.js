@@ -3,7 +3,7 @@ const rp = require('request-promise-native');
 const INSPECTION_URL = 'https://data.cityofchicago.org/resource/4ijn-s7e5.json';
 
 /**
- * Hit the SODA api to retrieve inspection data
+ * Hit the SODA api to retrieve the most recent inspections.
  * @param {Integer} limit the number of records to retrieve
  * @param {Object} sodaAPIOptions any options that you would like to pass to the
  * SODA api. More info here: https://dev.socrata.com/consumers/getting-started.html
@@ -16,6 +16,7 @@ const getInspections = async (limit, sodaAPIOptions) => {
     uri: INSPECTION_URL,
     qs: {
       $limit: limit || 1000,
+      $order: 'inspection_date DESC',
       ...sodaAPIOptions,
     },
     json: true,

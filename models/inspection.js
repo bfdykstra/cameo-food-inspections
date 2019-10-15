@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       primaryKey: true,
       type: DataTypes.INTEGER,
+      unique: true,
     },
     dba_name: DataTypes.TEXT,
     aka_name: DataTypes.TEXT,
@@ -25,7 +26,6 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'inspection',
   });
   Inspection.associate = function associate(models) {
-    console.log('models: ', models);
     const { inspection, violation } = models;
     inspection.hasMany(violation, {
       foreignKey: 'inspection_id',

@@ -3,6 +3,7 @@ const db = require('../models');
 
 const router = express.Router();
 
+
 /* GET inspections listing. */
 router.get('/', async (req, res, next) => {
   try {
