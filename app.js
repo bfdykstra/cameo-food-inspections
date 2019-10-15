@@ -5,6 +5,7 @@ const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
 const inspectionsRouter = require('./routes/inspections');
+const violationsRouter = require('./routes/violations');
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/inspections', inspectionsRouter);
+app.use('/violations', violationsRouter);
 app.get('/favicon.ico', (req, res) => res.status(204));
 
 // catch 404 and forward to error handler
