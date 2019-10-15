@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('../models');
+const logger = require('../logger');
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.get('/', async (req, res, next) => {
 
     res.json({ data: allInspections });
   } catch (e) {
-    console.error(e);
+    logger.error(e);
     res.status(500).json({
       error: e.message,
     });
@@ -41,7 +42,7 @@ router.get('/:id', async (req, res, next) => {
 
     res.status(status).json(responseObject);
   } catch (e) {
-    console.error(e);
+    logger.error(e);
     res.status(500).json({
       error: e.message,
     });

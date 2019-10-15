@@ -1,5 +1,6 @@
 const { Parser, AsyncParser, parseAsync } = require('json2csv');
 const fs = require('fs');
+const logger = require('../logger');
 
 /**
  *
@@ -31,7 +32,7 @@ const writeStreamCsv = (fileName, data) => {
   // const asyncParser = new AsyncParser(undefined, transformOpts);
 
   const output = fs.createWriteStream(outputPath, { encoding: 'utf8' });
-  parseAsync(data).then((csv) => console.log('csv string: ', csv));
+  parseAsync(data).then((csv) => logger.debug('csv string: ', csv));
 };
 
 
