@@ -151,4 +151,5 @@ Include the query parameter includeInspection=true to also retrieve the inspecti
 - [ ] Deduplication validation
 - [ ] CLI bundled as executable so node is not dependency.
 - [ ] Stream full dataset in to database instead of just subset.
+- [ ] Improve error handling / user input around SODA developer API
 
