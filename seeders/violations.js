@@ -2,7 +2,7 @@
 const {
   getInspections,
   parseInspections,
-} = require('../services/parseInspections');
+} = require('../services/inspections');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

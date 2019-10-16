@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 const {
   getInspections,
   parseInspections,
-} = require('./services/parseInspections');
+} = require('./services/inspectionServices');
 const logger = require('./logger');
 
 const { writeCsv } = require('./services/csvServices');

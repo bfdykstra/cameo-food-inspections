@@ -14,7 +14,7 @@ const logger = require('../logger');
 const writeCsv = (fileName, data, outputDirectory) => {
   // output directory relative to the root of the project
   const filePath = `${__dirname}/../${outputDirectory}/${fileName}.csv`;
-  if (!fs.existsSync(filePath)) throw Error(`The given file path: ./${outputDirectory}/${fileName}.csv, does not exist`);
+  if (!fs.existsSync(filePath)) throw new Error(`The given file path: ./${outputDirectory}/${fileName}.csv, does not exist`);
   const csvParser = new Parser();
   fs.writeFileSync(filePath, csvParser.parse(data));
 };
