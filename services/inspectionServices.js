@@ -1,4 +1,5 @@
 const rp = require('request-promise-native');
+const logger = require('../logger');
 
 const INSPECTION_URL = 'https://data.cityofchicago.org/resource/4ijn-s7e5.json';
 
@@ -49,11 +50,22 @@ const parseInspections = (allInspections) => allInspections.reduce((accum, inspe
     violationsArr.forEach((violation) => {
       const [name, comments] = violation.split('- Comments:');
 
-      accum.allViolationsArr.push({
-        inspection_id: parseInt(inspectionOb.inspection_id, 10),
-        name: name.trim(),
-        comments: comments.trim(),
-      });
+      // ##. <rest of name>
+      // split on period
+      // const [violationId, violationName] = name.split('.')
+      try {
+        const violationOb = {
+          name: name.trim(),
+          inspection_id: parseInt(inspectionOb.inspection_id, 10),
+        };
+
+        if (comments) violationOb.comments = comments.trim();
+
+        accum.allViolationsArr.push(violationOb);
+      } catch (e) {
+        logger.error(e, name, comments);
+        throw e;
+      }
     });
   }
 
