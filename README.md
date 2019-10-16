@@ -1,27 +1,9 @@
 # Cameo food inspections project
 
-## Getting Started
+This project exposes a CLI and API to retrieve data from chicago food inspections and any violations those inspections might have. Information about the dataset, as well as the raw data can be found [here](https://data.cityofchicago.org/Health-Human-Services/Food-Inspections/4ijn-s7e5/data).
 
-Open a terminal, git clone this repo and navigate to the root of the project.
+The API is built with Node.js and PostgreSQL, using express and the sequelize ORM to interact with the database. This API uses a simple relational model where each inspection has 0 or many violations.
 
-To start the API:
-```
-docker-compose up -d # builds the api and database containers and leaves them running in the background
-```
-
-**If this is your first time running the application**:
-```
-sh first_time.sh # creates the sym-link for CLI, executes migrations in the database, and seeds the database.
-```
-
-To stop the API:
-```
-docker-compose down
-```
-
-To start the CLI tool, execute `get-tables` and wait for the prompt to start!
-
-To start exploring the API, navigate to http://localhost:3000/inspections/?limit=5&includeViolations=true in a browser!
 
 ## Requirements
 
@@ -31,6 +13,38 @@ You will need [Docker](https://www.docker.com/products/docker-desktop) and [Git]
 You will need Node.js 8.9.1 and PostgreSQL 11.5. 
 
 To get Node.js installed, I like to use the [Node Version Manager](https://github.com/nvm-sh/nvm) where I can easily install different Node versions and switch between them. For PostgreSQL, if you are on macOS I love using [Postgres.app](https://postgresapp.com/). It automatically installs the Postgres CLI, and it comes with a really useful desktop app. I find it pairs nicely with an app called [Postico](https://eggerapps.at/postico/). If you are not on a mac, you can use https://www.enterprisedb.com/downloads/postgresql to get a Postgres install.
+
+
+## Getting Started
+
+Open a terminal, git clone this repo and navigate to the root of the project.
+
+To start the API:
+```
+docker-compose up -d # builds the api and database containers and leaves them running in the background
+```
+
+***If this is your first time running the application***:
+```
+sh first_time.sh # creates the sym-link for CLI, executes migrations and seeds in the running container
+```
+
+
+***If you would only like to expose the CLI and not run the API:***
+```
+npm link
+``` 
+
+To stop the API:
+```
+docker-compose down
+```
+
+### To get the CSV output:
+
+execute `get-tables` and wait for the prompt to start!
+
+To start exploring the API, navigate to http://localhost:3000/inspections/?limit=5&includeViolations=true in a browser.
 
 #### Setup for local development and running the application.
 
@@ -74,9 +88,10 @@ There are 2 resources that you can retrieve with this read-only API: Inspections
 The inspections route is located at /inspections. Inspections have 0 or many violations associated with them.
 
 GET /inspections
+
 Retrieves all inspections in the database. If you would like to limit the number of results returned, include the query parameter 'limit'. Eg. /inspections?limit=500 to get 500 of the most recent inspections. If you would like to also get any violations associated with the inspections, use the query parameter includeViolations=true.
 
-Returns an JSON object with two keys, data and 'success'. If the query was successful, the 'success' key will have the boolean value true. The data key has an array of objects where each object has the format:
+Returns an JSON object with two keys, data and 'success'. If the query was successful, the 'success' key will be `true`. The data key has an array of objects where each object has the format:
 ```
 {
   inspection_id: INTEGER,
@@ -98,7 +113,7 @@ Returns an JSON object with two keys, data and 'success'. If the query was succe
 }
 ```
 
-If the query is not successful, it will return HTTP status code 500, and the returned JSON object will have a 'message' field with information about the error that occured and 'success' field set to boolean value false.
+If the query is not successful, it will return HTTP status code 500, and the returned JSON object will have a 'message' field with information about the error that occured and 'success' field set to `false`.
 
 GET /inspections/:inspectionId
 
@@ -110,7 +125,7 @@ If you would like to also get any violations associated with the inspection, use
 
 GET /violations
 
-Retrieve all violations. Limit the results with the 'limit' query parameter. If you would like the associated inspection, use the query parameter includeInspection=true. The returned JSON object has the keys 'data' and 'success'. If the query was successful, the 'success' key will have the boolean value true.
+Retrieve all violations. Limit the results with the 'limit' query parameter. If you would like the associated inspection, use the query parameter includeInspection=true. The returned JSON object has the keys 'data' and 'success'. If the query was successful, the 'success' key will be `true`.
 
 The returned array of violations will have the format:
 {
@@ -127,4 +142,13 @@ GET /violations/:violationId
 Retrieves a single violation by violation id. If the violationId cannot be found it will return HTTP status code 404 and will have 'message' field that will say 'No violation found for id: violationId' where the violationId is the given id.
 
 Include the query parameter includeInspection=true to also retrieve the inspection associated with the violation.
+
+## Future work
+- [ ] Write tests that mock database interactions
+- [ ] Increase testing code coverage
+- [ ] Integration tests
+- [ ] Deploy in AWS
+- [ ] Deduplication validation
+- [ ] CLI bundled as executable so node is not dependency.
+- [ ] Stream full dataset in to database instead of just subset.
 
