@@ -1,4 +1,4 @@
-const { assert, expect } = require('chai');
+const { assert } = require('chai');
 const fs = require('fs');
 const sinon = require('sinon');
 const { writeCsv } = require('../services/csvServices');
