@@ -19,8 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     inspection_date: DataTypes.DATE,
     inspection_type: DataTypes.TEXT,
     results: DataTypes.STRING,
-    latitude: DataTypes.FLOAT,
-    longitude: DataTypes.FLOAT,
+    latitude: DataTypes.STRING,
+    longitude: DataTypes.STRING,
   }, {
     timestamps: false,
     tableName: 'inspection',

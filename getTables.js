@@ -19,7 +19,7 @@ async function promptForArguments(options) {
     questions.push({
       type: 'number',
       name: 'limit',
-      message: 'How many inspections you would like to retrieve?, eg. 15000',
+      message: 'How many inspections you would like to retrieve?, eg. 1000',
       default: 1000,
       validate: (input) => input > 0 || 'Limit must be greater than 0',
     });
@@ -54,8 +54,10 @@ async function promptForArguments(options) {
 }
 
 module.exports = {
-  handleInput: async (myArgs) => {
-    if (myArgs.h || myArgs.help) {
+  handleInput: async (args) => {
+    const { _, ...options } = args;
+
+    if (options.h || options.help) {
       const helpText = `Usage: get-tables [arguments]\n
   -l, --limit                The number of inspection records to pull from the chicago data API. Defaults to 1000 records.\n
   -o, --output-directory     The directory to output the file to. The directory is relative to the root of the project. Default is data/\n
@@ -64,8 +66,8 @@ module.exports = {
       `;
       logger.message(helpText);
     } else {
-      const options = await promptForArguments(myArgs);
-      const { limit } = options;
+      const promptInput = await promptForArguments(options);
+      const { limit } = promptInput;
 
 
       try {
@@ -74,14 +76,14 @@ module.exports = {
 
         const { inspectionsArr, allViolationsArr } = parseInspections(inspections);
 
-        const inspectionsFileName = (options['inspections-file-name'] || 'inspections_test').replace('.csv', '');
+        const inspectionsFileName = (promptInput['inspections-file-name'] || 'inspections_test').replace('.csv', '');
 
-        const violationsFileName = (options['violations-file-name'] || 'violations_test').replace('.csv', '');
+        const violationsFileName = (promptInput['violations-file-name'] || 'violations_test').replace('.csv', '');
 
-        writeCsv(inspectionsFileName, inspectionsArr, options['output-dir'] || options.o || 'data/');
-        if (allViolationsArr.length) writeCsv(violationsFileName, allViolationsArr, options['output-dir'] || options.o || 'data/');
+        writeCsv(inspectionsFileName, inspectionsArr, promptInput['output-dir'] || promptInput.o || 'data/');
+        if (allViolationsArr.length) writeCsv(violationsFileName, allViolationsArr, promptInput['output-dir'] || promptInput.o || 'data/');
 
-        logger.message(`\nWrote inspections and violations to ${options['output-dir'] || options.o || 'data/'}${inspectionsFileName}.csv and ${options['output-dir'] || options.o || 'data/'}${violationsFileName}.csv!\n`);
+        logger.message(`\nWrote inspections and violations to ${promptInput['output-dir'] || promptInput.o || 'data/'}${inspectionsFileName}.csv and ${promptInput['output-dir'] || promptInput.o || 'data/'}${violationsFileName}.csv!\n`);
       } catch (e) {
         logger.error('error getting tables: ', e.message);
       }

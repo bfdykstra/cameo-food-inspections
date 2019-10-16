@@ -6,11 +6,11 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const { limit, includeInspections } = req.query;
+    const { limit, includeInspection } = req.query;
 
     const allViolations = await db.violation.findAll({
       limit,
-      include: includeInspections === 'true' ? [{
+      include: includeInspection === 'true' ? [{
         model: db.inspection,
       }] : [],
     });
@@ -26,15 +26,15 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const { includeInspections } = req.query;
+    const { includeInspection } = req.query;
 
     const violation = await db.violation.findByPk(req.params.id, {
-      include: includeInspections === 'true' ? [{
+      include: includeInspection === 'true' ? [{
         model: db.inspection,
       }] : [],
     });
 
-    const responseObject = { data: violation || [], message: violation ? 'success' : `No record id ${req.params.id} found` };
+    const responseObject = { data: violation || [], success: !!violation, ...!violation && { message: `No violation found for id: ${req.params.id}` } };
     const status = violation ? 200 : 404;
 
     res.status(status).json(responseObject);

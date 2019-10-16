@@ -5,7 +5,8 @@
     "database": "cameo_development",
     "host": "localhost",
     "dialect": "postgres",
-    "operatorsAliases": false
+    "operatorsAliases": false,
+    "logging": false
   },
   "production": {
     "username": "benjamindykstra",
@@ -13,6 +14,7 @@
     "database": "cameo_production",
     "host": "database",
     "dialect": "postgres",
-    "operatorsAliases": false
+    "operatorsAliases": false,
+    "logging": false
   }
 }

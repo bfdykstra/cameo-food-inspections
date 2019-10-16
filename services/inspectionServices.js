@@ -51,8 +51,8 @@ const parseInspections = (allInspections) => allInspections.reduce((accum, inspe
 
       accum.allViolationsArr.push({
         inspection_id: parseInt(inspectionOb.inspection_id, 10),
-        name,
-        comments,
+        name: name.trim(),
+        comments: comments.trim(),
       });
     });
   }

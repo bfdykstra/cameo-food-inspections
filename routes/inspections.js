@@ -16,10 +16,11 @@ router.get('/', async (req, res, next) => {
       }] : [],
     });
 
-    res.json({ data: allInspections });
+    res.json({ data: allInspections, success: true });
   } catch (e) {
     logger.error(e);
     res.status(500).json({
+      success: false,
       error: e.message,
     });
   }
@@ -37,13 +38,14 @@ router.get('/:id', async (req, res, next) => {
       }] : [],
     });
 
-    const responseObject = { data: inspection || [], message: inspection ? 'success' : `No record id ${req.params.id} found` };
+    const responseObject = { data: inspection || [], success: !!inspection, ...!inspection && { message: `No inspection found for id: ${req.params.id}` } };
     const status = inspection ? 200 : 404;
 
     res.status(status).json(responseObject);
   } catch (e) {
     logger.error(e);
     res.status(500).json({
+      success: false,
       error: e.message,
     });
   }
